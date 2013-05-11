@@ -1,18 +1,11 @@
+package codequality
+
 import sbt._
 import Keys._
 
-object ProjectBuild extends Build {
+object CodeQualityPlugin extends Plugin {
 
-  val main = Project(
-    "$name$",
-    new java.io.File("."),
-    settings = Defaults.defaultSettings ++ ProjectSettings.all
-  )
-}
-
-object ProjectSettings {
-
-  def all: Seq[sbt.Project.Setting[_]] = List(
+  def Settings: Seq[sbt.Project.Setting[_]] = List(
     CheckStyleSettings.all,
     PmdSettings.all
   ).flatten
@@ -27,10 +20,10 @@ object ProjectSettings {
         import streams.log
 
         val args = List(
-          "-c", (base / "project" / "checkstyle-config.xml").getAbsolutePath,
+          "-c", (base / "checkstyle-config.xml").getAbsolutePath,
           "-f", "xml",
           "-r", src.getAbsolutePath,
-          "-o", (target / "checkstyle-report.xml").getAbsolutePath
+          "-o", (target / "checkstyle-result.xml").getAbsolutePath
         )
         log info ("using checkstyle args " + args)
         trappingExits {
@@ -51,10 +44,10 @@ object ProjectSettings {
         import streams.log
 
         val args = List(
-          src.getAbsolutePath,
-          "html",
-          (base / "project" / "pmd-ruleset.xml").getAbsolutePath,
-          "-reportfile", (target / "pmd-report.html").getAbsolutePath
+          "-dir", src.getAbsolutePath,
+          "-format", "xml",
+          "-rulesets", (base / "pmd-ruleset.xml").getAbsolutePath,
+          "-reportfile", (target / "pmd.xml").getAbsolutePath
         )
         log info ("using pmd args " + args)
         trappingExits {
