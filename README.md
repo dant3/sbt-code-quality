@@ -30,7 +30,7 @@ folder. The file must be called `checkstyle-config.xml`.
 ### PMD ###
 
 You can check your code with [pmd](http://pmd.sourceforge.net/) by typing
-`sbt checkstyle`. The result file is `target/pmd.xml`.
+`sbt pmd`. The result file is `target/pmd.xml`.
 
 You must have a pmd rule set under your projects root folder. The file
 must be called `pmd-ruleset.xml`.
