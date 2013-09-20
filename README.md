@@ -9,7 +9,7 @@ It adds support for [checkstyle](http://checkstyle.sourceforge.net/) and
 
 add following line to `project/plugins.sbt`
 
-    addSbtPlugin("de.corux" %% "sbt-code-quality" % "0.1.0-SNAPSHOT")
+    addSbtPlugin("de.corux" %% "sbt-code-quality" % "0.2.0")
     resolvers += "corux-releases" at "http://tomcat.corux.de/nexus/content/repositories/releases/"
     resolvers += "corux-snapshots" at "http://tomcat.corux.de/nexus/content/repositories/snapshots/"
 
