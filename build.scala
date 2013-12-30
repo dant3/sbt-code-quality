@@ -71,7 +71,7 @@ object CodeQualityPlugin extends Plugin {
       thunk
     } catch {
       case _: NoExitsException =>
-      case e => throw e
+      case e : Throwable => throw e
     } finally {
       System setSecurityManager originalSecManager
     }
