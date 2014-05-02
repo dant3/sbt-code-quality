@@ -1,4 +1,4 @@
 libraryDependencies ++= Seq(
-  "com.puppycrawl.tools" % "checkstyle" % "5.6",
-  "net.sourceforge.pmd" % "pmd" % "5.0.5"
+  "com.puppycrawl.tools" % "checkstyle" % "5.7",
+  "net.sourceforge.pmd" % "pmd" % "5.1.1"
 )

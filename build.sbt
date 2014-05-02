@@ -4,9 +4,9 @@ name := "sbt-code-quality"
 
 organization := "de.corux"
 
-version := "0.2.1"
+version := "0.2.2"
 
-scalaVersion := "2.10.2"
+scalaVersion := "2.10.3"
 
 credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
 
