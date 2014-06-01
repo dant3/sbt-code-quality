@@ -4,9 +4,11 @@ name := "sbt-code-quality"
 
 organization := "de.corux"
 
-version := "0.2.2"
+version := "0.2.3-SNAPSHOT"
 
-scalaVersion := "2.10.3"
+scalaVersion := "2.10.4"
+
+crossScalaVersions := Seq("2.10.4")
 
 credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
 
