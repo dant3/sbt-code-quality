@@ -1,0 +1,1 @@
+addSbtPlugin("de.corux" % "sbt-code-quality" % "0.2.3-SNAPSHOT")
