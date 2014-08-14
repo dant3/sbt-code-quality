@@ -2,11 +2,12 @@ package codequality
 
 import sbt._
 
-object CodeQualityPlugin extends AutoPlugin {
+object CodeQualityPlugin extends Plugin {
     override def projectSettings: Seq[Def.Setting[_]] = List(
         CheckStyle.defaults,
         PMD.defaults
     ).flatten
+
 
 
     private[codequality] def trappingExits(task: => Unit): Option[Int] = {
@@ -18,13 +19,12 @@ object CodeQualityPlugin extends AutoPlugin {
             import java.security.Permission
 
             override def checkPermission(perm: Permission) {
-                if (perm.getName startsWith "exitVM") {
-                    val nameParts = perm.getName.split(".")
-                    val exitCode = if (nameParts.size > 1) {
-                        nameParts(1).toInt
-                    } else {
-                        Integer.MIN_VALUE
-                    }
+                val exitPermName = "exitVM"
+
+                val permName = perm.getName
+                if (permName startsWith exitPermName) {
+                    val exitCodeString = permName.substring((exitPermName + ".").length)
+                    val exitCode = exitCodeString.trim.toInt
                     throw NoExitsException(exitCode)
                 }
             }
