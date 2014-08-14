@@ -2,7 +2,7 @@ import codequality.PMD
 
 PMD.defaults
 
-name := "pmd-detect-failure"
+name <<= baseDirectory(_.name)
 
 PMD.format := PMD.ReportFormat.xml
 

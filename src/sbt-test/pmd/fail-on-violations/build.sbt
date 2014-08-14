@@ -2,6 +2,6 @@ import codequality.PMD
 
 PMD.defaults
 
-name := "pmd-failure"
+name <<= baseDirectory(_.name)
 
 PMD.failOnViolations := true
