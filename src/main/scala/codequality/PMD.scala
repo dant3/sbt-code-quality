@@ -22,7 +22,7 @@ object PMD {
     val defaults: Seq[Def.Setting[_]] = Seq(
         task,
         // setup meaningful defaults
-        format := ReportFormat.textcolor,
+        format := ReportFormat.text,
         outputFile := None,
         failOnViolations := false,
         ruleSets := Seq("basic.xml", "unusedcode.xml", "imports.xml").map((filename) => s"rulesets/java/$filename")
