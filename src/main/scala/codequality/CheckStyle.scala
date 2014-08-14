@@ -16,7 +16,7 @@ object CheckStyle {
 
     val checkStyle = TaskKey[Result]("checkstyle", "run CheckStyle")
 
-    val defaults = Seq(
+    lazy val defaults = Seq(
         format := ReportFormat.plain,
         configFile <<= baseDirectory(_ / "checkstyle-config.xml"),
         defaultOutputFile,

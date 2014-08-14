@@ -19,7 +19,7 @@ object PMD {
     val pmd = TaskKey[Result]("pmd", "run PMD")
 
 
-    val defaults: Seq[Def.Setting[_]] = Seq(
+    lazy val defaults: Seq[Def.Setting[_]] = Seq(
         task,
         // setup meaningful defaults
         format := ReportFormat.text,
