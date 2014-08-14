@@ -2,9 +2,9 @@ package codequality
 
 import sbt._
 
-object CodeQualityPlugin extends Plugin {
-    def all: Seq[Def.Setting[_]] = List(
-        CheckStyle.all,
+object CodeQualityPlugin extends AutoPlugin {
+    override def projectSettings: Seq[Def.Setting[_]] = List(
+        CheckStyle.defaults,
         PMD.defaults
     ).flatten
 
