@@ -6,7 +6,7 @@ import sbt._
 object PMD {
     case class Result(violations: Int, outputFile: Option[File])
     object ReportFormat extends Enumeration {
-        val text, textcolor, xml, csv, none = Value
+        val text, textcolor, xml, csv, emacs, html, summaryhtml, none = Value
     }
 
 
