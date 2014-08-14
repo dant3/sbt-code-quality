@@ -90,7 +90,7 @@ object PMD {
             } else {
                 import scala.collection.JavaConversions._
 
-                val languages = {
+                val languages = { // TODO: file issue in PMD since method PMD.getLanguages could be public
                     import net.sourceforge.pmd.Rule
 
                     val discoverer = configuration.getLanguageVersionDiscoverer
