@@ -9,8 +9,8 @@ object CodeQualityPlugin extends Plugin {
     ).flatten
 
 
-    def trappingExits[T](task: => T): Option[T] = {
-        case class NoExitsException() extends SecurityException
+    private[codequality] def trappingExits(task: => Unit): Option[Int] = {
+        case class NoExitsException(exitCode: Int) extends SecurityException
 
         val originalSecManager = System.getSecurityManager
 
@@ -18,14 +18,23 @@ object CodeQualityPlugin extends Plugin {
             import java.security.Permission
 
             override def checkPermission(perm: Permission) {
-                if (perm.getName startsWith "exitVM") throw NoExitsException()
+                if (perm.getName startsWith "exitVM") {
+                    val nameParts = perm.getName.split(".")
+                    val exitCode = if (nameParts.size > 1) {
+                        nameParts(1).toInt
+                    } else {
+                        Integer.MIN_VALUE
+                    }
+                    throw NoExitsException(exitCode)
+                }
             }
         }
 
         try {
-            Some(task)
+            task
+            None
         } catch {
-            case _: NoExitsException => None
+            case NoExitsException(exitCode) => Some(exitCode)
             case e : Throwable => throw e
         } finally {
             System setSecurityManager originalSecManager
