@@ -5,7 +5,8 @@ import sbt._
 object CodeQualityPlugin extends Plugin {
     override def projectSettings: Seq[Def.Setting[_]] = List(
         CheckStyle.defaults,
-        PMD.defaults
+        PMD.defaults,
+        CodeQuality.defaults
     ).flatten
 
 
