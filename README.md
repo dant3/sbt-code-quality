@@ -13,10 +13,6 @@ add following line to `project/plugins.sbt`
     resolvers += "corux-releases" at "http://tomcat.corux.de/nexus/content/repositories/releases/"
     resolvers += "corux-snapshots" at "http://tomcat.corux.de/nexus/content/repositories/snapshots/"
 
-and inject plugin settings into project in `build.sbt`:
-
-    codequality.CodeQualityPlugin.Settings
-
 ## Usage ##
 
 ### Checkstyle ###
