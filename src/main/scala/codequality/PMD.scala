@@ -43,6 +43,7 @@ object PMD {
         def run(streams: Keys.TaskStreams, src: File, format: ReportFormat.Value,
                 outputFile: Option[File], failOnViolations: Boolean, ruleSets: Seq[String]): Result = {
             import streams.log
+            import java.lang.Runtime.{ getRuntime => JavaRuntime }
 
             val violationsCount =try {
 
@@ -51,11 +52,14 @@ object PMD {
                     case None => Nil
                 }
 
-                val args = List(
-                    "-dir", src.getAbsolutePath,
-                    "-format", format.toString,
-                    "-rulesets", ruleSets.reduce(_ + "," + _)
-                ) ++ reportFileOption
+                val args = Map(
+                    "-threads" -> JavaRuntime.availableProcessors().toString,
+                    "-dir" -> src.getAbsolutePath,
+                    "-format" -> format.toString,
+                    "-rulesets" -> ruleSets.reduce(_ + "," + _)
+                ).toList.flatMap{
+                    case (key, value) => Seq(key, value.toString)
+                } ++ reportFileOption
 
                 log debug ("using pmd args " + args)
                 runPMD(args.toArray, log)
