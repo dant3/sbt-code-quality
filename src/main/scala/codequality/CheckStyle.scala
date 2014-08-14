@@ -12,7 +12,7 @@ object CheckStyle {
     val format = SettingKey[ReportFormat.Value]("CheckStyle.format", "Output format used by CheckStyle")
     val outputFile = SettingKey[Option[File]]("CheckStyle.outputFile", "File to print output of CheckStyle")
     val configFile = SettingKey[File]("CheckStyle.configFile", "CheckStyle configuration file")
-    val failOnViolations = SettingKey[Boolean]("pmdFailOnViolations", "Wherever to mark task as failed on violations")
+    val failOnViolations = SettingKey[Boolean]("CheckStyle.failOnViolations", "Wherever to mark task as failed on violations")
 
     val checkStyle = TaskKey[Result]("checkstyle", "run CheckStyle")
 

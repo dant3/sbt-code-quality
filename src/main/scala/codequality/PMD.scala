@@ -10,10 +10,10 @@ object PMD {
     }
 
 
-    val format = SettingKey[ReportFormat.Value]("pmdOutputFormat", "Output format used by PMD")
-    val outputFile = SettingKey[Option[File]]("pmdOutputFile", "File to print output of PMD")
-    val ruleSets = SettingKey[Seq[String]]("pmdRuleSets", "File paths to PMD rulesets")
-    val failOnViolations = SettingKey[Boolean]("pmdFailOnViolations", "Wherever to mark task as failed on violations")
+    val format = SettingKey[ReportFormat.Value]("PMD.format", "Output format used by PMD")
+    val outputFile = SettingKey[Option[File]]("PMD.outputFile", "File to print output of PMD")
+    val ruleSets = SettingKey[Seq[String]]("PMD.ruleSets", "File paths to PMD rulesets")
+    val failOnViolations = SettingKey[Boolean]("PMD.failOnViolations", "Wherever to mark task as failed on violations")
 
 
     val pmd = TaskKey[Result]("pmd", "run PMD")
