@@ -29,7 +29,7 @@ object PMD {
     )
 
 
-    private def task = pmd <<= (streams, baseDirectory, sourceDirectory in Compile, target, format, outputFile, failOnViolations, ruleSets) map {
+    private def task = pmd <<= (streams, sourceDirectory in Compile, format, outputFile, failOnViolations, ruleSets) map {
         Task.run
     }
 
@@ -40,8 +40,8 @@ object PMD {
         import net.sourceforge.pmd.util.IOUtil
         import net.sourceforge.pmd.{RuleContext, RuleSet, RulesetsFactoryUtils, PMD => PMDUtility}
 
-        def run(streams: Keys.TaskStreams, base: File, src: File, target: File,
-                format: ReportFormat.Value, outputFile: Option[File], failOnViolations: Boolean, ruleSets: Seq[String]): Result = {
+        def run(streams: Keys.TaskStreams, src: File, format: ReportFormat.Value,
+                outputFile: Option[File], failOnViolations: Boolean, ruleSets: Seq[String]): Result = {
             import streams.log
 
             val violationsCount =try {
