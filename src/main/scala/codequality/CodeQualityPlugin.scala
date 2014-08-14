@@ -9,7 +9,7 @@ object CodeQualityPlugin extends Plugin {
     ).flatten
 
 
-    def trappingExits(task: => Unit): Unit = {
+    def trappingExits[T](task: => T): Option[T] = {
         case class NoExitsException() extends SecurityException
 
         val originalSecManager = System.getSecurityManager
@@ -23,9 +23,9 @@ object CodeQualityPlugin extends Plugin {
         }
 
         try {
-            task
+            Some(task)
         } catch {
-            case _: NoExitsException =>
+            case _: NoExitsException => None
             case e : Throwable => throw e
         } finally {
             System setSecurityManager originalSecManager
