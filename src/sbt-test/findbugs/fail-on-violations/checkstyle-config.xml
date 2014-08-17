@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+        "-//Puppy Crawl//DTD Check Configuration 1.3//EN"
+        "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
+<module name="Checker">
+    <module name="TreeWalker">
+        <module name="SuppressWarnings">
+            <property name="format"
+                      value="^unchecked$|^unused$"/>
+            <property name="tokens"
+                      value="
+          CLASS_DEF,INTERFACE_DEF,ENUM_DEF,
+          ANNOTATION_DEF,ANNOTATION_FIELD_DEF,
+          ENUM_CONSTANT_DEF,METHOD_DEF,CTOR_DEF
+          "/>
+        </module>
+        <module name="VisibilityModifier">
+            <property name="packageAllowed" value="false"/>
+        </module>
+    </module>
+</module>
