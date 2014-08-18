@@ -7,11 +7,8 @@ publishArtifact in Test := false
 pomIncludeRepository := { _ => false }
 
 publishTo <<= version { v: String =>
-    val repository = "http://oss.sonatype.org/"
-    if (v.trim.endsWith("SNAPSHOT"))
-        Some("snapshots" at repository + "content/repositories/snapshots")
-    else
-        Some("releases" at repository + "content/repositories/releases")
+    val repository = if (v.trim.endsWith("SNAPSHOT")) "repo/snapshots" else "repo/releases"
+    Some(Resolver.file("repository", file(repository))(Resolver.mavenStylePatterns))
 }
 
 pomExtra := <url>https://github.com/corux/sbt-code-quality</url>
