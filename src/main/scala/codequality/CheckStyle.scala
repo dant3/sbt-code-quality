@@ -18,8 +18,9 @@ object CheckStyle {
 
     lazy val defaults = Seq(
         format := ReportFormat.plain,
+        outputFile <<= (target, format) { defaultOutputFile },
         configFile <<= baseDirectory(_ / "checkstyle-config.xml"),
-        defaultOutputFile,
+        failOnViolations := false,
         checkStyleTask
     )
 
@@ -56,10 +57,8 @@ object CheckStyle {
             }
     }
 
-    private def defaultOutputFile = outputFile <<= (target, format) {
-        (target, format) => format match {
-            case ReportFormat.plain => None
-            case ReportFormat.xml => Some(target / "checkstyle-result.xml")
-        }
+    private def defaultOutputFile(target: File, format: ReportFormat.Value) = format match {
+        case ReportFormat.plain => None
+        case ReportFormat.xml => Some(target / "checkstyle-result.xml")
     }
 }

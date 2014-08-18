@@ -4,8 +4,6 @@ import sbt._
 
 object CodeQualityPlugin extends AutoPlugin {
     override lazy val projectSettings: Seq[Def.Setting[_]] = List(
-        CheckStyle.defaults,
-        PMD.defaults,
         CodeQuality.defaults
     ).flatten
 
