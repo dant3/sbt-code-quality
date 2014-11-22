@@ -1,7 +1,5 @@
-import codequality.CheckStyle
-
-CheckStyle.defaults
+import codequality.Keys._
 
 name <<= baseDirectory(_.name)
 
-CheckStyle.failOnViolations := true
+failOnViolations in checkStyle := true

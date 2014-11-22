@@ -11,7 +11,7 @@ publishTo <<= version { v: String =>
     Some(Resolver.file("repository", file(repository))(Resolver.mavenStylePatterns))
 }
 
-pomExtra := <url>https://github.com/corux/sbt-code-quality</url>
+pomExtra := <url>https://github.com/dant3/sbt-code-quality</url>
     <licenses>
         <license>
             <name>Apache 2.0</name>
@@ -20,15 +20,10 @@ pomExtra := <url>https://github.com/corux/sbt-code-quality</url>
         </license>
     </licenses>
     <scm>
-        <url>scm:git:git@github.com:corux/sbt-code-quality.git</url>
-        <connection>scm:git:git@github.com:corux/sbt-code-quality.git</connection>
+        <url>scm:git:git@github.com:dant3/sbt-code-quality.git</url>
+        <connection>scm:git:git@github.com:dant3/sbt-code-quality.git</connection>
     </scm>
     <developers>
-        <developer>
-            <id>corux</id>
-            <name>Tobias Wallura</name>
-            <url>http://www.corux.de/</url>
-        </developer>
         <developer>
             <id>dant3</id>
             <name>Viacheslav Blinov</name>

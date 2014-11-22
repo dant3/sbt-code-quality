@@ -1,1 +1,1 @@
-addSbtPlugin("com.github.dant3" % "sbt-code-quality" % "0.2.4-SNAPSHOT")
+addSbtPlugin("com.github.dant3" % "sbt-code-quality" % "0.3.0-SNAPSHOT")

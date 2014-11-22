@@ -3,7 +3,7 @@ package codequality
 import org.specs2.mutable._
 
 class FindBugsSpec extends Specification {
-    val bugs = FindBugs.Bug.parseBugs(FindBugsSpec.sampleXml)
+    val bugs = FindBugsBug.parseBugs(FindBugsSpec.sampleXml)
 
     "FindBugs parser with sampleXml parse output" should {
         "contain only one bug instance" in {
