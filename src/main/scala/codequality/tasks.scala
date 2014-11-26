@@ -4,6 +4,9 @@ import sbt._
 import sbt.Keys._
 
 
+import scala.collection.mutable
+
+
 private[codequality] object tasks {
   def checkStyleTaskDef = ( streams
                           , sourceDirectory in Compile
@@ -50,31 +53,39 @@ private[codequality] object tasks {
   def findbugsTaskDef = ( streams
                         , compile in Compile
                         , classDirectory in Compile
+                        , dependencyClasspath in Compile
                         , target in Compile
                         , Keys.FindBugs.effort
                         , Keys.FindBugs.consoleOutput
                         , Keys.FindBugs.outputFile
                         , Keys.FindBugs.displayProgress
                         , Keys.failOnViolations) map {
-    (streams, compile, classesDirectory, target,
+    (streams, compile, classesDirectory, classpath, target,
      effort, consoleOutput, outputFile, displayProgress, failOnViolation) =>
       import edu.umd.cs.findbugs.FindBugs2
 
+      val log = streams.log
       val classes = (classesDirectory ** "*.class").getPaths
 
       outputFile.getParentFile.mkdirs()
       outputFile.delete()
 
+      val auxClassPath = classpath.files.foldLeft(mutable.Buffer[String]()) { (buff, cpFile) =>
+        buff += "-auxclasspath" += cpFile.getAbsolutePath
+      }.toList
+
       var args = List(/*"-help",*/
+        "-noClassOk",
         s"-effort:$effort",
         "-xml:withMessages",
         "-output", outputFile.absolutePath
-      ) ++ classes
+      ) ++ auxClassPath ++ classes
 
       if (displayProgress) {
-        args = args :+ "-progress"
+        args = "-progress" +: args
       }
 
+      log.info(s"Running findbugs on ${classes.size} classes...")
       FindBugs2.main(args.toArray)
 
       def bugs = parseFindbugsOutputXml(outputFile, streams.log)
