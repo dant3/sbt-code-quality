@@ -4,6 +4,8 @@ import sbt._
 import sbt.Keys._
 
 
+import java.util.{Map => JMap}
+
 import scala.collection.mutable
 
 
@@ -186,6 +188,9 @@ private[codequality] object tasks {
 
 
     private def runPMD(args: Array[String], log: sbt.Logger): Int = {
+      val oldEnv = PureEvil.copyJMap(System.getenv())
+      PureEvil.setEnv(oldEnv + ("net.sourceforge.pmd.cli.noExit" -> "true"))
+
       val params = PMDCommandLineInterface.extractParameters(new PMDParameters, args, "pmd")
       val configuration = PMDParameters.transformParametersIntoConfiguration(params)
       val ruleSetFactory = RulesetsFactoryUtils.getRulesetFactory(configuration)
@@ -217,7 +222,6 @@ private[codequality] object tasks {
         PMDUtility.processFiles(configuration, ruleSetFactory, files, new RuleContext, List(sbtRenderer, renderer))
         log warn s"Processing done! Found ${sbtRenderer.issuesCount} issue(s)"
         renderer.end()
-        renderer.flush()
 
         System.setOut(oldStdOut)
         sbtRenderer.issuesCount
@@ -273,6 +277,49 @@ private[codequality] object tasks {
       case e : Throwable => throw e
     } finally {
       System setSecurityManager originalSecManager
+    }
+  }
+
+
+
+  private object PureEvil {
+    import scala.collection.JavaConversions._
+
+    def copyJMap[K,V](jMap:JMap[K,V]):Map[K,V] = Map(jMap.toList:_*)
+
+    def setEnv(newEnv:Map[String, String]):Unit = {
+      try {
+        val processEnvironmentClass = Class.forName("java.lang.ProcessEnvironment")
+        val theEnvironmentField = processEnvironmentClass.getDeclaredField("theEnvironment")
+        theEnvironmentField.setAccessible(true)
+        val env = theEnvironmentField.get(null).asInstanceOf[JMap[String, String]]
+        env.putAll(newEnv)
+
+        val theCaseInsensitiveEnvironmentField = processEnvironmentClass.getDeclaredField("theCaseInsensitiveEnvironment")
+        theCaseInsensitiveEnvironmentField.setAccessible(true)
+        val cienv = theCaseInsensitiveEnvironmentField.get(null).asInstanceOf[JMap[String,String]]
+        cienv.putAll(newEnv)
+      } catch {
+        case e:NoSuchFieldException =>
+          try {
+            val classes = classOf[java.util.Collections].getDeclaredClasses
+            val env = System.getenv()
+
+            for(cl <- classes) {
+              if(cl.getName == "java.util.Collections$UnmodifiableMap") {
+                val mutableMapMember = cl.getDeclaredField("m")
+                mutableMapMember.setAccessible(true)
+
+                val envMap = mutableMapMember.get(env).asInstanceOf[JMap[String,String]]
+                envMap.clear()
+                envMap.putAll(newEnv)
+              }
+            }
+          } catch {
+            case e:Exception => e.printStackTrace()
+          }
+        case e:Exception => e.printStackTrace()
+      }
     }
   }
 }
