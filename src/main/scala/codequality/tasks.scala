@@ -88,11 +88,17 @@ private[codequality] object tasks {
       log.info(s"Running findbugs on ${classes.size} classes...")
       FindBugs2.main(args.toArray)
 
+      def print(msg:String) = if (failOnViolation) {
+        streams.log.error(msg)
+      } else {
+        streams.log.warn(msg)
+      }
+
       def bugs = parseFindbugsOutputXml(outputFile, streams.log)
       for (bug <- bugs) {
         consoleOutput match {
-          case FindBugsConsoleOutput.detailed => streams.log.info(bug.detailedDescription)
-          case FindBugsConsoleOutput.short => streams.log.info(bug.shortDescription)
+          case FindBugsConsoleOutput.detailed => print(bug.detailedDescription)
+          case FindBugsConsoleOutput.short => print(bug.shortDescription)
           case FindBugsConsoleOutput.none =>
         }
       }
